@@ -1,9 +1,5 @@
-import React from "react";
-// import ReactPlayer from "react-player/youtube";
-
 const MainStream = () => {
-	// return <ReactPlayer url="" />;
-	return <h1>hello from main stream</h1>;
+	return <p>222</p>;
 };
 
 export default MainStream;

@@ -1,4 +1,4 @@
-import LogoIcon from "./logo.svg";
-import MenuIcon from "./menu.svg";
+import LogoIcon from "./Logo";
+import MenuIcon from "./MenuIcon";
 
 export { LogoIcon, MenuIcon };
