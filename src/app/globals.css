@@ -12,13 +12,32 @@
 	.container {
 		@apply max-w-[1200px] mx-auto;
 	}
+}
 
-	.pairTC-gradient {
-		@apply bg-gradient-to-r from-[#F46B45] to-[#EEA849] text-white;
+@layer base {
+	html,
+	body {
+		@apply text-dark;
+	}
+	button:not([data-attribute="button-icon"]),
+	.anchor {
+		@apply text-white bg-gradient-to-r from-[#F46B45] to-[#EEA849] font-bold px-9 py-3 rounded-25 hover:opacity-90 hover:shadow-sm transition-all duration-200 ease-linear;
+	}
+
+	button.active {
+		@apply border-1 border-solid border-primary !text-primary shadow-md;
+	}
+
+	input {
+		@apply rounded-25 border-solid border-1 border-darkGray w-full text-sm focus-visible:outline-darkGray focus-visible:shadow-sm;
 	}
 }
 
 html,
 body {
 	font-family: "Poppins", sans-serif;
+}
+
+iframe {
+	border-radius: 25px;
 }

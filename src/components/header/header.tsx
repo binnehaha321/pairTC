@@ -9,7 +9,9 @@ const Header = () => {
 					<LogoIcon />
 				</div>
 				<div className="flex-between-center gap-16">
-					<LinkButton href={"/"}>Guide me</LinkButton>
+					<LinkButton href={"/"} className="anchor">
+						Guide me
+					</LinkButton>
 					<ButtonIcon>
 						<MenuIcon />
 					</ButtonIcon>
