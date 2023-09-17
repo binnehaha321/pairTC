@@ -6,7 +6,7 @@ const ButtonIcon: FC<HTMLProps<HTMLButtonElement>> = ({
 	...props
 }) => {
 	return (
-		<button type="button" {...props}>
+		<button type="button" data-attribute="button-icon" {...props}>
 			{children}
 		</button>
 	);

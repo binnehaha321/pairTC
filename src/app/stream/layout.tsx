@@ -3,5 +3,5 @@ export default function StreamLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	return <section>{children}</section>;
+	return <section className="m-9">{children}</section>;
 }

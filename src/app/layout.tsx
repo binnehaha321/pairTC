@@ -1,6 +1,16 @@
+"use client";
+
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
 import Header from "@/components/header/header";
+import { ReduxProvider } from "@/store/provider";
 import "./globals.css";
+
+const poppins = Poppins({
+	weight: ["400", "500", "600", "700"],
+	subsets: ["devanagari", "latin"],
+	fallback: ["sans-serif"],
+});
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -14,9 +24,11 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body>
-				<Header />
-				<main className="container">{children}</main>
+			<body className={poppins.className}>
+				<ReduxProvider>
+					<Header />
+					<main className="container">{children}</main>
+				</ReduxProvider>
 			</body>
 		</html>
 	);
