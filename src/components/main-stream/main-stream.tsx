@@ -1,23 +1,33 @@
 "use client";
-import YouTube, { YouTubeProps } from "react-youtube";
-import { useAppSelector } from "@/app/hooks/redux";
+import { useEffect } from "react";
+import YouTube from "react-youtube";
+
+import { useAppDispatch, useAppSelector } from "@/app/hooks/redux";
+import { setPlayTrack } from "@/store/slices/media.slice";
 
 const MainStream = () => {
-	const { mediaId } = useAppSelector((state) => state.media);
-	const onPlayerReady: YouTubeProps["onReady"] = (event) => {
-		// access to player in all event handlers via event.target
-		event.target.pauseVideo();
+	const { playlist, playingTrack } = useAppSelector((state) => state.media);
+	const dispatch = useAppDispatch();
+
+	const onPlayerReady = (event: any) => {
+		event.target.playVideo();
 	};
+
+	useEffect(() => {
+		if (playlist.length === 1 && playingTrack !== playlist[0]?.id)
+			dispatch(setPlayTrack(playlist[0]?.id));
+	}, [playlist]);
+
 	return (
 		<YouTube
 			opts={{
 				height: "382",
 				width: "680",
 				playerVars: {
-					// autoplay: 1,
+					autoplay: 1,
 				},
 			}}
-			videoId={mediaId}
+			videoId={playingTrack || process.env.NEXT_PUBLIC_DEFAULT_VIDEO}
 			onReady={onPlayerReady}
 		/>
 	);

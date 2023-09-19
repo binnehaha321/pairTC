@@ -1,7 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 /* Tailwind reusing class */
 @layer components {
@@ -19,7 +19,7 @@
 	body {
 		@apply text-dark;
 	}
-	button:not([data-attribute="button-icon"]),
+	button:not(:where([data-attribute="button-icon"], .Toastify__close-button)),
 	.anchor {
 		@apply text-white bg-gradient-to-r from-[#F46B45] to-[#EEA849] font-bold px-9 py-3 rounded-25 hover:opacity-90 hover:shadow-sm transition-all duration-200 ease-linear;
 	}
@@ -40,4 +40,8 @@ body {
 
 iframe {
 	border-radius: 25px;
+}
+
+.tag img {
+	border-radius: 5px;
 }

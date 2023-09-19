@@ -1,29 +1,60 @@
 "use client";
 import { FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+
 import Button from "@/app/ui/button/button";
-import { PlusIcon } from "../svgs";
 import Tabs from "./tabs/tabs";
-import { getMediaId, hasValue } from "@/app/utils/input";
-import { setMediaId } from "@/store/slices/media.slice";
-import { useAppDispatch } from "@/app/hooks/redux";
+import { PlusIcon } from "../svgs";
+import { getMediaId } from "@/app/utils/input";
+import { setPlayTrack, setPlaylist } from "@/store/slices/media.slice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/redux";
+import { getMediaById } from "@/store/actions/media.action";
+import { dupTrack } from "@/app/utils/track";
+import { DUPLICATE_YOUTUBE_URL } from "@/app/stream/constants/message";
 
 const Playlist = () => {
 	const dispatch = useAppDispatch();
+	const { playlist, playingTrack } = useAppSelector((state) => state.media);
 	const [mediaUrl, setMediaUrl] = useState("");
 
-	const handleAddMedia = (e: FormEvent<HTMLFormElement>) => {
+	const handleAddMedia = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const url = hasValue(mediaUrl);
 
-		if (!url) return;
-		const mediaId = getMediaId(url);
-		dispatch(setMediaId(mediaId));
-		setMediaUrl("");
+		try {
+			// validate YouTube URL request
+			const mediaId = getMediaId(mediaUrl);
+			if (!mediaId) return;
+
+			const { thumbnails, title, tags } = await getMediaById(mediaId);
+
+			// prevent duplicate video
+			const isDup = dupTrack(playlist, mediaId);
+			if (isDup) throw new Error(DUPLICATE_YOUTUBE_URL);
+
+			// send Media to store
+			dispatch(
+				setPlaylist({
+					id: mediaId,
+					thumbnail: thumbnails?.default?.url,
+					title,
+					tags,
+					playing: !playlist.length ? true : false,
+				})
+			);
+
+			!playingTrack && dispatch(setPlayTrack(mediaId));
+
+			// reset input
+			setMediaUrl("");
+		} catch (error: any) {
+			toast.error(error?.message);
+		}
 	};
 
 	return (
 		<div className="bg-gray border-darkGray border-1 border-solid rounded-25">
 			<form
+				name="YouTube URL"
 				className="flex-between-center gap-4 py-4 px-9"
 				onSubmit={handleAddMedia}
 			>

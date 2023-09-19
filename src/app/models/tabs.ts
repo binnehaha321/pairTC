@@ -13,11 +13,7 @@ export type TabsHeaderProps = {
 	iconInActive: JSX.Element;
 };
 
-export type ItemProps = {
-	image: ImageProps;
-	tag: string;
-};
-
-export type TabItemsProps = {
-	items: ItemProps[];
+export type MediaContentProps = {
+	title: string;
+	tags: string[];
 };
