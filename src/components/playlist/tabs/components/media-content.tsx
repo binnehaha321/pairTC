@@ -1,15 +1,24 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { MediaContentProps } from "@/app/models/tabs";
 
-const MediaContent = ({ tag }: { tag: string }) => {
+const MediaContent: React.FC<MediaContentProps> = ({ title, tags }) => {
 	return (
-		<>
-			<p className="truncate max-w-[333px] text-sm">
-				Làm Sao Để Giỏi Hơn 99% Những Người Còn Lại nha hahaha
+		<Fragment>
+			<p className="truncate max-w-[333px] text-sm" title={title}>
+				{title}
 			</p>
-			<span className="border-1 border-solid border-dark rounded-5 px-6 py-1 bg-gray w-fit text-xs">
-				{tag}
-			</span>
-		</>
+			<div className="flex gap-3 cursor-pointer">
+				{tags?.map((tag: string) => (
+					<span
+						key={tag}
+						className="border-1 border-solid border-dark rounded-5 px-3 py-1 bg-gray w-fit max-w-[150px] text-xs truncate"
+						title={tag}
+					>
+						{tag}
+					</span>
+				))}
+			</div>
+		</Fragment>
 	);
 };
 

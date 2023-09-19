@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { HeartIcon, List } from "@/components/svgs";
 import TabHeader from "./components/tab-header";
 import TabItems from "./components/tab-items";
-import type { ItemProps, TabsHeaderProps } from "@/app/models/tabs";
+import type { TabsHeaderProps } from "@/app/models/tabs";
+import { useAppSelector } from "@/app/hooks/redux";
+import { Media } from "@/store/slices/media.slice";
 
 const tabs: TabsHeaderProps[] = [
 	{
@@ -22,19 +24,12 @@ const tabs: TabsHeaderProps[] = [
 
 const Tabs = () => {
 	const [activeKey, setActiveKey] = useState<"list" | "love">("list");
-	const [items, setItems] = useState<ItemProps[]>([]);
-	// const [items, setItems] = useState<ItemProps[]>([
-	// 	{
-	// 		image: {
-	// 			src: "",
-	// 			width: 100,
-	// 			height: 56,
-	// 			alt: "pairTC overview",
-	// 		},
-	// 		tag: "0:26",
-	// 	},
-	// ]);
+	const [items, setItems] = useState<Media[]>([]);
+	const { playlist } = useAppSelector((state) => state.media);
 
+	useEffect(() => {
+		setItems(playlist);
+	}, [playlist]);
 	return (
 		<div className="px-9 py-2">
 			<TabHeader
@@ -47,4 +42,4 @@ const Tabs = () => {
 	);
 };
 
-export default Tabs;
+export default memo(Tabs);
