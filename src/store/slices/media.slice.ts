@@ -1,23 +1,36 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { HeaderKeyProps } from "@/models/tabs";
+import { handlePlayNext } from "../actions/media.action";
 
 export type Media = {
 	id: string;
 	title: string;
 	tags: string[];
 	thumbnail: string;
-	playing?: boolean;
+	loved: boolean;
+};
+
+export type PlayingTrack = {
+	track_id: string;
+	pause: boolean;
 };
 
 interface MediaState {
 	playlist: Media[];
 	favorites: Media[];
-	playingTrack: string;
+	// playingTrack: string;
+	playingTrack: PlayingTrack;
+	tab: HeaderKeyProps;
 }
 
 const initialState: MediaState = {
 	playlist: [],
 	favorites: [],
-	playingTrack: "",
+	playingTrack: {
+		track_id: "",
+		pause: false,
+	},
+	tab: "list",
 };
 
 const mediaSlicer = createSlice({
@@ -28,33 +41,45 @@ const mediaSlicer = createSlice({
 			state.playlist = [...state.playlist, action.payload];
 		},
 		removeMediaById: (state, action: PayloadAction<string>) => {
+			// remove track from playlist
 			state.playlist = state.playlist.filter(
 				(item) => item.id !== action.payload
 			);
-			if (state.playlist.length) {
-				state.playlist[0].playing = true;
-				state.playingTrack = state.playlist[0].id;
-			} else {
-				state.playingTrack = "";
-			}
+
+			// play the first track of playlist, if there's no any track, then don't play anything
+			state.playingTrack.track_id = handlePlayNext(state.playlist);
 		},
 		setFavorite: (state, action: PayloadAction<Media>) => {
-			state.favorites = [...state.favorites, action.payload];
+			state.favorites = [
+				...state.favorites,
+				{ ...action.payload, loved: true },
+			];
+
+			state.playlist = state.playlist.map((track) =>
+				track.id === action.payload?.id ? { ...track, loved: true } : track
+			);
 		},
 		removeFavById: (state, action: PayloadAction<string>) => {
+			// remove track from favorites
 			state.favorites = state.favorites.filter(
 				(item) => item.id !== action.payload
 			);
+
+			// play the first track of favorites, if there's no any track, then don't play anything
+			state.playingTrack.track_id = handlePlayNext(state.favorites);
+
+			state.playlist = state.playlist.map((track) =>
+				track.id === action.payload ? { ...track, loved: false } : track
+			);
+		},
+		setTab: (state, action: PayloadAction<HeaderKeyProps>) => {
+			state.tab = action.payload;
 		},
 		setPlayTrack: (state, action: PayloadAction<string>) => {
-			state.playingTrack = action.payload;
-			const trackIndex = state.playlist.findIndex(
-				(track) => track.id === action.payload
-			);
-			state.playlist.forEach((track) => {
-				if (track.playing) track.playing = false;
-			});
-			state.playlist[trackIndex].playing = true;
+			state.playingTrack.track_id = action.payload;
+		},
+		setPlayPause: (state) => {
+			state.playingTrack.pause = !state.playingTrack.pause;
 		},
 	},
 });
@@ -64,6 +89,8 @@ export const {
 	removeMediaById,
 	setFavorite,
 	removeFavById,
+	setTab,
 	setPlayTrack,
+	setPlayPause,
 } = mediaSlicer.actions;
 export default mediaSlicer.reducer;

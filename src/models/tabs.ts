@@ -1,4 +1,4 @@
-import { ImageProps } from "next/image";
+import { LIST, LOVE, OUR_LIST, FAVORITES } from "@/app/stream/constants/tab";
 
 export type TabsProps = {
 	tabs: TabsHeaderProps[];
@@ -6,9 +6,11 @@ export type TabsProps = {
 	onTabClick: () => void;
 };
 
+export type HeaderKeyProps = typeof LIST | typeof LOVE;
+
 export type TabsHeaderProps = {
-	key: string;
-	label: string;
+	key: HeaderKeyProps;
+	label: typeof OUR_LIST | typeof FAVORITES;
 	iconActive: JSX.Element;
 	iconInActive: JSX.Element;
 };

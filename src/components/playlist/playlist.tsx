@@ -2,19 +2,22 @@
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
+import { setPlayTrack, setPlaylist, setTab } from "@/store/slices/media.slice";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { getMediaById } from "@/store/actions/media.action";
+import { getMediaId } from "@/utils/input";
+import { dupTrack } from "@/utils/track";
+import { DUPLICATE_YOUTUBE_URL } from "@/app/stream/constants/message";
+
 import Button from "@/app/ui/button/button";
 import Tabs from "./tabs/tabs";
 import { PlusIcon } from "../svgs";
-import { getMediaId } from "@/app/utils/input";
-import { setPlayTrack, setPlaylist } from "@/store/slices/media.slice";
-import { useAppDispatch, useAppSelector } from "@/app/hooks/redux";
-import { getMediaById } from "@/store/actions/media.action";
-import { dupTrack } from "@/app/utils/track";
-import { DUPLICATE_YOUTUBE_URL } from "@/app/stream/constants/message";
 
 const Playlist = () => {
 	const dispatch = useAppDispatch();
-	const { playlist, playingTrack } = useAppSelector((state) => state.media);
+	const { playlist, playingTrack, tab } = useAppSelector(
+		(state) => state.media
+	);
 	const [mediaUrl, setMediaUrl] = useState("");
 
 	const handleAddMedia = async (e: FormEvent<HTMLFormElement>) => {
@@ -38,10 +41,14 @@ const Playlist = () => {
 					thumbnail: thumbnails?.default?.url,
 					title,
 					tags,
-					playing: !playlist.length ? true : false,
+					loved: false,
 				})
 			);
 
+			// return list tab
+			tab !== "list" && dispatch(setTab("list"));
+
+			// play the added track if there's no track in the playlist
 			!playingTrack && dispatch(setPlayTrack(mediaId));
 
 			// reset input

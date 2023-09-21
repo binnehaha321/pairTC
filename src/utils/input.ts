@@ -1,4 +1,4 @@
-import { INVALID_YOUTUBE_URL } from "../stream/constants/message";
+import { INVALID_YOUTUBE_URL } from "@/app/stream/constants/message";
 
 const hasValue = (val: string) => {
 	if (val.trim() === "") return;

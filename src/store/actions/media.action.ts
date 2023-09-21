@@ -1,3 +1,5 @@
+import { Media, PlayingTrack } from "../slices/media.slice";
+
 export const getMediaById = async (mediaId: string) => {
 	try {
 		const res = await fetch(
@@ -8,4 +10,19 @@ export const getMediaById = async (mediaId: string) => {
 	} catch (error: any) {
 		throw new Error(error);
 	}
+};
+
+export const handlePlayNext = (list: Media[]): string => {
+	if (!list.length) return "";
+	return list[0].id;
+};
+
+export const handlePlay = (playing: PlayingTrack) => {
+	if (playing.pause) playing.pause = false;
+	return;
+};
+
+export const handlePause = (playing: PlayingTrack) => {
+	if (playing.pause) return;
+	playing.pause = true;
 };
