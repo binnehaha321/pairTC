@@ -1,6 +1,6 @@
 import cn from "@/utils/cn";
-import Button from "@/app/ui/button/button";
 import type { TabsHeaderProps, TabsProps } from "@/models/tabs";
+import Button from "@/app/ui/button/button";
 
 const TabHeader: React.FC<TabsProps> = ({ tabs, activeTab, onTabClick }) => {
 	return (

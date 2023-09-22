@@ -2,8 +2,8 @@
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
-import { setPlayTrack, setPlaylist, setTab } from "@/store/slices/media.slice";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { setPlaylist, setTab } from "@/store/slices/media.slice";
 import { getMediaById } from "@/store/actions/media.action";
 import { getMediaId } from "@/utils/input";
 import { dupTrack } from "@/utils/track";
@@ -15,9 +15,7 @@ import { PlusIcon } from "../svgs";
 
 const Playlist = () => {
 	const dispatch = useAppDispatch();
-	const { playlist, playingTrack, tab } = useAppSelector(
-		(state) => state.media
-	);
+	const { playlist, tab } = useAppSelector((state) => state.media);
 	const [mediaUrl, setMediaUrl] = useState("");
 
 	const handleAddMedia = async (e: FormEvent<HTMLFormElement>) => {
@@ -47,9 +45,6 @@ const Playlist = () => {
 
 			// return list tab
 			tab !== "list" && dispatch(setTab("list"));
-
-			// play the added track if there's no track in the playlist
-			!playingTrack && dispatch(setPlayTrack(mediaId));
 
 			// reset input
 			setMediaUrl("");

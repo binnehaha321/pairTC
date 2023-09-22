@@ -1,4 +1,4 @@
-import { Media, PlayingTrack } from "../slices/media.slice";
+import { Media } from "../slices/media.slice";
 
 export const getMediaById = async (mediaId: string) => {
 	try {
@@ -12,17 +12,8 @@ export const getMediaById = async (mediaId: string) => {
 	}
 };
 
+// play the added track if there's no track in the playlist
 export const handlePlayNext = (list: Media[]): string => {
 	if (!list.length) return "";
 	return list[0].id;
-};
-
-export const handlePlay = (playing: PlayingTrack) => {
-	if (playing.pause) playing.pause = false;
-	return;
-};
-
-export const handlePause = (playing: PlayingTrack) => {
-	if (playing.pause) return;
-	playing.pause = true;
 };

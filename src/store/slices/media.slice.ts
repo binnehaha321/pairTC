@@ -10,26 +10,17 @@ export type Media = {
 	loved: boolean;
 };
 
-export type PlayingTrack = {
-	track_id: string;
-	pause: boolean;
-};
-
 interface MediaState {
 	playlist: Media[];
 	favorites: Media[];
-	// playingTrack: string;
-	playingTrack: PlayingTrack;
+	playingTrack: string;
 	tab: HeaderKeyProps;
 }
 
 const initialState: MediaState = {
 	playlist: [],
 	favorites: [],
-	playingTrack: {
-		track_id: "",
-		pause: false,
-	},
+	playingTrack: "",
 	tab: "list",
 };
 
@@ -38,7 +29,11 @@ const mediaSlicer = createSlice({
 	initialState,
 	reducers: {
 		setPlaylist: (state, action: PayloadAction<Media>) => {
-			state.playlist = [...state.playlist, action.payload];
+			const lovedTrack =
+				state.favorites?.find((track) => track.id === action.payload?.id) ||
+				action.payload;
+			state.playlist = [...state.playlist, lovedTrack];
+			state.playingTrack = handlePlayNext(state.playlist);
 		},
 		removeMediaById: (state, action: PayloadAction<string>) => {
 			// remove track from playlist
@@ -47,7 +42,7 @@ const mediaSlicer = createSlice({
 			);
 
 			// play the first track of playlist, if there's no any track, then don't play anything
-			state.playingTrack.track_id = handlePlayNext(state.playlist);
+			state.playingTrack = handlePlayNext(state.playlist);
 		},
 		setFavorite: (state, action: PayloadAction<Media>) => {
 			state.favorites = [
@@ -66,7 +61,7 @@ const mediaSlicer = createSlice({
 			);
 
 			// play the first track of favorites, if there's no any track, then don't play anything
-			state.playingTrack.track_id = handlePlayNext(state.favorites);
+			state.playingTrack = handlePlayNext(state.favorites);
 
 			state.playlist = state.playlist.map((track) =>
 				track.id === action.payload ? { ...track, loved: false } : track
@@ -76,10 +71,7 @@ const mediaSlicer = createSlice({
 			state.tab = action.payload;
 		},
 		setPlayTrack: (state, action: PayloadAction<string>) => {
-			state.playingTrack.track_id = action.payload;
-		},
-		setPlayPause: (state) => {
-			state.playingTrack.pause = !state.playingTrack.pause;
+			state.playingTrack = action.payload;
 		},
 	},
 });
@@ -91,6 +83,5 @@ export const {
 	removeFavById,
 	setTab,
 	setPlayTrack,
-	setPlayPause,
 } = mediaSlicer.actions;
 export default mediaSlicer.reducer;

@@ -1,12 +1,13 @@
 "use client";
 import { memo } from "react";
 
-import { HeartIcon, List } from "@/components/svgs";
-import TabHeader from "./components/tab-header";
-import TabItems from "./components/tab-items";
-import type { TabsHeaderProps } from "@/models/tabs";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { setTab } from "@/store/slices/media.slice";
+import type { TabsHeaderProps } from "@/models/tabs";
+
+import TabHeader from "./components/tab-header";
+import TabItems from "./components/tab-items";
+import { HeartIcon, List } from "@/components/svgs";
 
 const tabs: TabsHeaderProps[] = [
 	{

@@ -10,7 +10,6 @@ import {
 	removeFavById,
 	removeMediaById,
 	setFavorite,
-	setPlayPause,
 	setPlayTrack,
 } from "@/store/slices/media.slice";
 import { dupTrack } from "@/utils/track";
@@ -29,9 +28,11 @@ const TabItems = ({ items = [] }: { items: Media[] }) => {
 	const handleRemove = useCallback(
 		(id: string) => {
 			if (tab === "list") {
+				// remove track from playlist
 				dispatch(removeMediaById(id));
 				toast.success(REMOVE_VIDEO_FROM_PLAYLIST);
 			} else {
+				// remove fav track from favorites
 				dispatch(removeFavById(id));
 				toast.success(REMOVE_VIDEO_FROM_FAVORITES);
 			}
@@ -55,22 +56,10 @@ const TabItems = ({ items = [] }: { items: Media[] }) => {
 		[tab]
 	);
 
-	const handlePlayTrack = useCallback((trackId: string) => {
-		// if pausing the playingTrack
-		if (playingTrack.track_id === trackId) {
-			// continue playing
-			if (playingTrack.pause) {
-				console.log("video tam dung");
-			}
-			// set stop
-			return;
-		}
-		dispatch(setPlayPause());
-		// else {
-		// 	// set play
-		// 	dispatch(setPlayTrack(trackId));
-		// }
-	}, []);
+	const handlePlayTrack = (trackId: string) => {
+		if (trackId === playingTrack) return;
+		dispatch(setPlayTrack(trackId));
+	};
 
 	return (
 		<div className="mt-9 max-h-[190px] overflow-y-auto will-change-scroll">
@@ -95,9 +84,7 @@ const TabItems = ({ items = [] }: { items: Media[] }) => {
 								</div>
 								<PlaylistButtons
 									loved={loved}
-									isPlaying={
-										id === playingTrack.track_id && !playingTrack.pause
-									}
+									isPlaying={id === playingTrack}
 									onPlay={() => handlePlayTrack(id)}
 									onFavorite={() => handleFavTrack(playlist[index])}
 									onRemove={() => handleRemove(id)}
