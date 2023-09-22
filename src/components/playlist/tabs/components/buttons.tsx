@@ -7,7 +7,7 @@ type PlaylistButtonsProps = {
 	onRemove: () => void;
 	onFavorite: () => void;
 	onPlay?: () => void;
-	liked: boolean;
+	loved: boolean;
 	isPlaying: boolean;
 };
 
@@ -15,7 +15,7 @@ const PlaylistButtons: React.FC<PlaylistButtonsProps> = ({
 	onRemove,
 	onFavorite,
 	onPlay,
-	liked,
+	loved,
 	isPlaying,
 }) => {
 	return (
@@ -24,7 +24,7 @@ const PlaylistButtons: React.FC<PlaylistButtonsProps> = ({
 				<TrashIcon />
 			</ButtonIcon>
 			<ButtonIcon key="2" onClick={onFavorite} title="Add to favorites">
-				{liked ? <HeartFilledIcon /> : <HeartIcon />}
+				{loved ? <HeartFilledIcon /> : <HeartIcon />}
 			</ButtonIcon>
 			<ButtonIcon key="3" onClick={onPlay} title="Play video">
 				{isPlaying ? <PauseIcon /> : <PlayIcon />}

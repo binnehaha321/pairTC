@@ -1,3 +1,5 @@
+import { Media } from "../slices/media.slice";
+
 export const getMediaById = async (mediaId: string) => {
 	try {
 		const res = await fetch(
@@ -8,4 +10,10 @@ export const getMediaById = async (mediaId: string) => {
 	} catch (error: any) {
 		throw new Error(error);
 	}
+};
+
+// play the added track if there's no track in the playlist
+export const handlePlayNext = (list: Media[]): string => {
+	if (!list.length) return "";
+	return list[0].id;
 };

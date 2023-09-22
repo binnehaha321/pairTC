@@ -1,11 +1,13 @@
 "use client";
-import { memo, useEffect, useState } from "react";
-import { HeartIcon, List } from "@/components/svgs";
+import { memo } from "react";
+
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { setTab } from "@/store/slices/media.slice";
+import type { TabsHeaderProps } from "@/models/tabs";
+
 import TabHeader from "./components/tab-header";
 import TabItems from "./components/tab-items";
-import type { TabsHeaderProps } from "@/app/models/tabs";
-import { useAppSelector } from "@/app/hooks/redux";
-import { Media } from "@/store/slices/media.slice";
+import { HeartIcon, List } from "@/components/svgs";
 
 const tabs: TabsHeaderProps[] = [
 	{
@@ -23,21 +25,17 @@ const tabs: TabsHeaderProps[] = [
 ];
 
 const Tabs = () => {
-	const [activeKey, setActiveKey] = useState<"list" | "love">("list");
-	const [items, setItems] = useState<Media[]>([]);
-	const { playlist } = useAppSelector((state) => state.media);
+	const { playlist, favorites, tab } = useAppSelector((state) => state.media);
+	const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		setItems(playlist);
-	}, [playlist]);
 	return (
 		<div className="px-9 py-2">
 			<TabHeader
 				tabs={tabs}
-				activeTab={activeKey}
-				onTabClick={() => setActiveKey(activeKey === "list" ? "love" : "list")}
+				activeTab={tab}
+				onTabClick={() => dispatch(setTab(tab === "list" ? "love" : "list"))}
 			/>
-			<TabItems items={items} />
+			<TabItems items={tab === "list" ? playlist : favorites} />
 		</div>
 	);
 };
