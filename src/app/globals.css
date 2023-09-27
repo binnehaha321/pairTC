@@ -9,8 +9,16 @@
 		@apply flex justify-between items-center;
 	}
 
+	.flex-center-all {
+		@apply flex justify-center items-center;
+	}
+
 	.container {
 		@apply max-w-[1200px] mx-auto;
+	}
+
+	.border-solid-1 {
+		@apply border-solid border-[1px];
 	}
 }
 

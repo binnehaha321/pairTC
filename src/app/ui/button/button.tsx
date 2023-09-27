@@ -1,7 +1,7 @@
-import { HTMLProps, FC } from "react";
+import { FC, ButtonHTMLAttributes } from "react";
 import cn from "@/utils/cn";
 
-interface Button extends HTMLProps<HTMLButtonElement> {
+interface Button extends ButtonHTMLAttributes<HTMLButtonElement> {
 	leftIcon?: JSX.Element;
 	rightIcon?: JSX.Element;
 	variant?: "primary" | "outline";

@@ -1,12 +1,12 @@
-import { HTMLProps, FC } from "react";
+import { FC, ButtonHTMLAttributes } from "react";
 
-const ButtonIcon: FC<HTMLProps<HTMLButtonElement>> = ({
-	type,
+const ButtonIcon: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
+	type = "button",
 	children,
 	...props
 }) => {
 	return (
-		<button type="button" data-attribute="button-icon" {...props}>
+		<button type={type} data-attribute="button-icon" {...props}>
 			{children}
 		</button>
 	);

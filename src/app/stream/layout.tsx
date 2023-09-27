@@ -7,7 +7,7 @@ export default function StreamLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<section className="m-9">
+		<section className="my-9">
 			{children}
 			<ToastContainer autoClose={3000} pauseOnHover={false} />
 		</section>

@@ -1,7 +1,7 @@
 import NextLink, { LinkProps } from "next/link";
-import { HTMLProps, FC } from "react";
+import { FC, AnchorHTMLAttributes } from "react";
 
-const LinkButton: FC<LinkProps & HTMLProps<HTMLAnchorElement>> = ({
+const LinkButton: FC<LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 	as,
 	children,
 	href,

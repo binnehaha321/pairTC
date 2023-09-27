@@ -6,6 +6,12 @@ import PlayIcon from "./PlayIcon";
 import PauseIcon from "./PauseIcon";
 import HeartIcon from "./HeartIcon";
 import List from "./List";
+import CameraIcon from "./CameraIcon";
+import CopyIcon from "./CopyIcon";
+import InviteIcon from "./InviteIcon";
+import MicrophoneIcon from "./MicrophoneIcon";
+import SendMsgIcon from "./SendMsgIcon";
+import TickIcon from "./TickIcon";
 
 export {
 	LogoIcon,
@@ -16,4 +22,10 @@ export {
 	PauseIcon,
 	HeartIcon,
 	List,
+	CameraIcon,
+	CopyIcon,
+	InviteIcon,
+	MicrophoneIcon,
+	SendMsgIcon,
+	TickIcon,
 };

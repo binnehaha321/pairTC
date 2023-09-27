@@ -1,14 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { HeaderKeyProps } from "@/models/tabs";
 import { handlePlayNext } from "../actions/media.action";
-
-export type Media = {
-	id: string;
-	title: string;
-	tags: string[];
-	thumbnail: string;
-	loved: boolean;
-};
+import type { HeaderKeyProps } from "@/models/tabs";
+import type { Media } from "@/models/media";
 
 interface MediaState {
 	playlist: Media[];
